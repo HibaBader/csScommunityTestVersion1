@@ -1,19 +1,22 @@
 package graduation.project.bzu.cscomunity.Activities;
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.ActionBar;
-import android.os.Build;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -23,74 +26,114 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import graduation.project.bzu.cscomunity.Adapters.GridSubjectsListAdapter;
+import graduation.project.bzu.cscomunity.Adapters.spinnerAdapter;
 import graduation.project.bzu.cscomunity.DataModels.Subject;
 import graduation.project.bzu.cscomunity.R;
 
-import static android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+
 
 public class CreatePost extends AppCompatActivity {
-
-    EditText postSubject,postTitle,postTags,postBody;
+    EditText postSubject, postTitle, postTags, postBody;
     Button submit;
+    Spinner subjectsSpinner;
+    ArrayList<Subject> subjectsListSpinner = new ArrayList<>();
+    private spinnerAdapter adapter;
 
-    @Override
-    protected void onResume(){
-        super.onResume();
-        View decorView = getWindow().getDecorView();
-// Hide both the navigation bar and the status bar.
-// SYSTEM_UI_FLAG_FULLSCREEN is only available on Android 4.1 and higher, but as
-// a general rule, you should design your app to hide the status bar whenever you
-// hide the navigation bar.
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN ;
-        decorView.setSystemUiVisibility(uiOptions);
 
-    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //getSupportActionBar().hide();
-        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-        //          WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.create_post_layout);
-        submit=(Button)findViewById(R.id.post_submit);
+        BottomNavigationView BttomnavigationView = findViewById(R.id.bottomNavigationView);
+        BttomnavigationView.setSelectedItemId(R.id.question);
+        BttomnavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.homeIcon:
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                    case R.id.question:
+
+                        return true;
+
+                    case R.id.topic:
+                        startActivity(new Intent(getApplicationContext(), Topic.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                    case R.id.notifications:
+                        startActivity(new Intent(getApplicationContext(), Notification.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                    case R.id.menu:
+                        startActivity(new Intent(getApplicationContext(), Menu.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                }
+                return false;
+            }
+        });
+        subjectsSpinner = findViewById(R.id.spinner);
+        populateSpinner();
+        adapter = new spinnerAdapter(this, subjectsListSpinner);
+        subjectsSpinner.setAdapter(adapter);
+
+        subjectsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+               Subject clickedItem = (Subject) parent.getItemAtPosition(position);
+               String clickedItemName = clickedItem.getName();
+                Toast.makeText(CreatePost.this,clickedItemName + " selected", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Toast.makeText(CreatePost.this, " Nothing selected", Toast.LENGTH_LONG).show();
+            }
+        });
+        submit = (Button) findViewById(R.id.post_submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(CreatePost.this,"Success",Toast.LENGTH_SHORT).show();
+
                 submitPost();
+                Toast.makeText(CreatePost.this, "Success", Toast.LENGTH_SHORT).show();
             }
         });
 
     }
 
-    private void submitPost(){
-        String post_url="http://192.168.1.111:8080/api/post";
+    private void submitPost() {
+        String post_url = "http://192.168.1.113:8080/api/post";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        postSubject=findViewById(R.id.post_subject);
-        postTitle=findViewById(R.id.post_title);
-        postTags=findViewById(R.id.post_tags);
-        postBody=findViewById(R.id.post_body);
+       // postSubject = findViewById(R.id.post_subject);
+        postTitle = findViewById(R.id.post_title);
+        postTags = findViewById(R.id.post_tags);
+        postBody = findViewById(R.id.post_body);
         JSONObject postData = new JSONObject();
 
 
-
         try {
-            postData.put("postType","Question");
-            postData.put("postSubject", postSubject.getText().toString().trim());
+           Subject ob = (Subject) subjectsSpinner.getSelectedItem();
+            postData.put("postType", "Question");
+         //  postData.put("postSubject",  subjectsSpinner.getSelectedItem().toString().trim());
+            postData.put("postSubject", ob.getName().toString());
             postData.put("postTitle", postTitle.getText().toString().trim());
             postData.put("postTags", postTags.getText().toString().trim());
             postData.put("postBody", postBody.getText().toString().trim());
-            postData.put("postAttachment", "Attachment");
+            postData.put("attachment", "atsztachment");
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -112,4 +155,38 @@ public class CreatePost extends AppCompatActivity {
         requestQueue.add(jsonObjectRequest);
 
     }
+    private void populateSpinner(){
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        String url = "http://192.168.1.113:8080/api/subject";
+
+            RequestQueue queue= Volley.newRequestQueue(this);
+            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+
+                @Override
+                public void onResponse(JSONArray response) {
+                    for (int i=0; i< response.length();i++){
+                        try {
+                            JSONObject subjectObject = response.getJSONObject(i);
+                            Subject subject = new Subject();
+                            subject.setName(subjectObject.getString("name").toString());
+                            subject.setImageURL(subjectObject.getString("image"));
+
+
+                            subjectsListSpinner.add(subject);
+                           // subjectsSpinnerAdapter= new ArrayAdapter<>(CreatePost.this, android.R.layout.simple_spinner_item,subjectsListSpinner);
+                          //  subjectsSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                          //  subjectsSpinner.setAdapter(subjectsSpinnerAdapter);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }, new Response.ErrorListener(){
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("tag", "onErrorResponse: " + error.getMessage());
+                }
+            });
+        queue.add(jsonArrayRequest);
+        }
 }

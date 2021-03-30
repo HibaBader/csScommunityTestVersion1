@@ -8,7 +8,8 @@ public class Post {
     private String postTitle;
     private String postTags;
     private String postBody;
-    private String postAttachment;
+    private String attachment;
+ //   private int userID;
 
 
     public Post() {
@@ -16,7 +17,7 @@ public class Post {
     }
 
     public Post(int postID, String postType, String postSubject, String postTitle, String postTags,
-                String postBody, String postAttachment) {
+                String postBody, String attachment) {
         super();
         this.postID = postID;
         this.postType = postType;
@@ -24,7 +25,8 @@ public class Post {
         this.postTitle = postTitle;
         this.postTags = postTags;
         this.postBody = postBody;
-        this.postAttachment = postAttachment;
+        this.attachment = attachment;
+       // this.userID = userID;
     }
 
     public int getPostID() {
@@ -75,23 +77,36 @@ public class Post {
         this.postBody = postBody;
     }
 
-    public String getPostAttachment() {
-        return postAttachment;
+    public String getAttachment() {
+        return attachment;
     }
 
-    public void setPostAttachment(String postAttachment) {
-        this.postAttachment = postAttachment;
+    public void setAttachment(String postAttachment) {
+        this.attachment = postAttachment;
     }
+
+//    public int getUserID() {
+//        return userID;
+//    }
+//
+//    public void setUserID(int userID) {
+//        this.userID = userID;
+//    }
+
 
     @Override
     public String toString() {
-        return "postModel [postID=" + postID + ", postType=" + postType + ", postSubject=" + postSubject
-                + ", postTitle=" + postTitle + ", postTags=" + postTags + ", postBody=" + postBody + ", postAttachment="
-                + postAttachment + "]";
+        return "Post{" +
+                "postID=" + postID +
+                ", postType='" + postType + '\'' +
+                ", postSubject='" + postSubject + '\'' +
+                ", postTitle='" + postTitle + '\'' +
+                ", postTags='" + postTags + '\'' +
+                ", postBody='" + postBody + '\'' +
+                ", postAttachment='" + attachment + '\'' +
+                '}';
     }
 }
-
-
 
 
 

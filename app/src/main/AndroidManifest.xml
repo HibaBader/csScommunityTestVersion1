@@ -11,21 +11,26 @@
         android:theme="@style/Theme.CSComunity"
         android:usesCleartextTraffic="true"
         >
+        <activity android:name=".Activities.Topic"/>
+        <activity android:name=".Activities.CreatePost" />
+        <activity android:name=".Activities.Menu" />
+        <activity android:name=".Activities.Notification" />
         <activity android:name=".Activities.MainActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    <activity android:name=".Activities.CreatePost">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-    </activity>
+        <activity android:name=".Activities.ViewPost">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

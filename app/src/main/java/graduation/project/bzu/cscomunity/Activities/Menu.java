@@ -1,30 +1,31 @@
 package graduation.project.bzu.cscomunity.Activities;
 
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import graduation.project.bzu.cscomunity.R;
 
-public class MainActivity extends AppCompatActivity {
+public class Menu extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+        setContentView(R.layout.menu_layout);
         BottomNavigationView BttomnavigationView =findViewById(R.id.bottomNavigationView);
-        BttomnavigationView.setSelectedItemId(R.id.homeIcon);
+        BttomnavigationView.setSelectedItemId(R.id.menu);
         BttomnavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.homeIcon:
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        overridePendingTransition(0,0);
 
                         return true;
                     case R.id.question:
@@ -41,12 +42,12 @@ public class MainActivity extends AppCompatActivity {
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.menu:
-                        startActivity(new Intent(getApplicationContext(), Menu.class));
-                        overridePendingTransition(0,0);
+
                         return true;
                 }
                 return false;
             }
         });
+
     }
 }
