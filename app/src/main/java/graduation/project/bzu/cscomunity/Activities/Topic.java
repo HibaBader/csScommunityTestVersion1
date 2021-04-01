@@ -30,6 +30,7 @@ import graduation.project.bzu.cscomunity.Activities.MainActivity;
 import graduation.project.bzu.cscomunity.Activities.Menu;
 import graduation.project.bzu.cscomunity.Activities.Notification;
 import graduation.project.bzu.cscomunity.Adapters.GridSubjectsListAdapter;
+import graduation.project.bzu.cscomunity.Adapters.GridSubjectsListTopicAdapter;
 import graduation.project.bzu.cscomunity.DataModels.Subject;
 import graduation.project.bzu.cscomunity.R;
 
@@ -37,7 +38,7 @@ public class Topic extends AppCompatActivity {
     RecyclerView recyclerView;
     List<Subject> subjects;
     private String JSON_URL="http://192.168.1.113:8080/api/subject";
-    GridSubjectsListAdapter adapter;
+    GridSubjectsListTopicAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +103,7 @@ public class Topic extends AppCompatActivity {
                 }
                 recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(),2,GridLayoutManager.VERTICAL,false));
 
-                adapter = new GridSubjectsListAdapter(getApplicationContext(),subjects);
+                adapter = new GridSubjectsListTopicAdapter(getApplicationContext(),subjects);
                 recyclerView.setAdapter(adapter);
             }
         }, new Response.ErrorListener(){

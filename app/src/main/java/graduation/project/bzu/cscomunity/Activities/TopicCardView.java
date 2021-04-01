@@ -31,15 +31,14 @@ import graduation.project.bzu.cscomunity.Adapters.GetPostsAdapter;
 import graduation.project.bzu.cscomunity.DataModels.Post;
 import graduation.project.bzu.cscomunity.R;
 
-public class ViewPost extends AppCompatActivity {
-    private String JSON_URL="http://192.168.1.113:8080/api/post";
+public class TopicCardView extends AppCompatActivity {
     List<Post> posts;
     RecyclerView recyclerView;
     GetPostsAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.view_post_main);
+        setContentView(R.layout.view_question_and_topic_main);
         BottomNavigationView BttomnavigationView =findViewById(R.id.bottomNavigationView);
         BttomnavigationView.setSelectedItemId(R.id.homeIcon);
         BttomnavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -73,18 +72,25 @@ public class ViewPost extends AppCompatActivity {
         recyclerView = findViewById(R.id.subjectsList);
         posts=new ArrayList<>();
         extractPosts();
+
+
+
+
         FloatingActionButton fab_addNewPost = findViewById(R.id.fab_add);
         fab_addNewPost.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                startActivity(new Intent(getApplicationContext(), CreatePostHome.class));
-            }
-        }
+                                              @Override
+                                              public void onClick(View view){
+                                                  startActivity(new Intent(getApplicationContext(), CreatePost.class));
+                                              }
+                                          }
         );
 
     }
     private void extractPosts() {
         RequestQueue queue= Volley.newRequestQueue(this);
+        Intent intent = getIntent();
+        String name= (String)intent.getExtras().get("subjectName");
+        String JSON_URL="http://192.168.1.113:8080/api/post/"+"Topic/"+name;
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, JSON_URL, null, new Response.Listener<JSONArray>() {
 
             @Override
@@ -101,7 +107,7 @@ public class ViewPost extends AppCompatActivity {
                         post.setPostTags(postObject.getString("postTags").toString());
                         post.setPostTitle(postObject.getString("postTitle").toString());
                         post.setPostType(postObject.getString("postType").toString());
-                     //   post.setUserID(postObject.getInt("userID"));
+                        //   post.setUserID(postObject.getInt("userID"));
 
                         posts.add(post);
                     } catch (JSONException e) {
@@ -121,6 +127,5 @@ public class ViewPost extends AppCompatActivity {
         });
         queue.add(jsonArrayRequest);
     }
-
 
 }

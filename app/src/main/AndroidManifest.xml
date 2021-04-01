@@ -16,6 +16,8 @@
         <activity android:name=".Activities.Menu" />
         <activity android:name=".Activities.Notification" />
         <activity android:name=".Activities.Question" />
+        <activity android:name=".Activities.QuestionCardView" />
+        <activity android:name=".Activities.TopicCardView" />
      <!--   <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,6 +27,13 @@
         </activity>-->
 
         <activity android:name=".Activities.ViewPost">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Activities.CreatePostHome">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

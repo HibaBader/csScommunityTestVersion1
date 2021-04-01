@@ -1,12 +1,16 @@
 package graduation.project.bzu.cscomunity.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,20 +34,22 @@ import graduation.project.bzu.cscomunity.DataModels.Subject;
 import graduation.project.bzu.cscomunity.R;
 
 public class Question extends AppCompatActivity {
+    public static Context context;
     RecyclerView recyclerView;
     List<Subject> subjects;
     private String JSON_URL="http://192.168.1.113:8080/api/subject";
     GridSubjectsListAdapter adapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        context=this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         recyclerView = findViewById(R.id.subjectsList);
-        subjects=new ArrayList<>();
+        subjects = new ArrayList<>();
         extractSubject();
-
 
 
         BottomNavigationView BttomnavigationView =findViewById(R.id.bottomNavigationView);
@@ -76,6 +82,8 @@ public class Question extends AppCompatActivity {
                 return false;
             }
         });
+
+
     }
     private void extractSubject() {
         RequestQueue queue= Volley.newRequestQueue(this);
@@ -109,5 +117,7 @@ public class Question extends AppCompatActivity {
         });
         queue.add(jsonArrayRequest);
     }
+
+
 }
 
