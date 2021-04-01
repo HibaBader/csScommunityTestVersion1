@@ -25,15 +25,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import graduation.project.bzu.cscomunity.Activities.CreatePost;
-import graduation.project.bzu.cscomunity.Activities.MainActivity;
-import graduation.project.bzu.cscomunity.Activities.Menu;
-import graduation.project.bzu.cscomunity.Activities.Notification;
 import graduation.project.bzu.cscomunity.Adapters.GridSubjectsListAdapter;
 import graduation.project.bzu.cscomunity.DataModels.Subject;
 import graduation.project.bzu.cscomunity.R;
 
-public class Topic extends AppCompatActivity {
+public class Question extends AppCompatActivity {
     RecyclerView recyclerView;
     List<Subject> subjects;
     private String JSON_URL="http://192.168.1.113:8080/api/subject";
@@ -51,7 +47,7 @@ public class Topic extends AppCompatActivity {
 
 
         BottomNavigationView BttomnavigationView =findViewById(R.id.bottomNavigationView);
-        BttomnavigationView.setSelectedItemId(R.id.topic);
+        BttomnavigationView.setSelectedItemId(R.id.question);
         BttomnavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -61,15 +57,15 @@ public class Topic extends AppCompatActivity {
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.question:
-                        startActivity(new Intent(getApplicationContext(), CreatePost.class));
-                        overridePendingTransition(0, 0);
                         return true;
 
                     case R.id.topic:
+                        startActivity(new Intent(getApplicationContext(), Topic.class));
+                        overridePendingTransition(0, 0);
 
                         return true;
                     case R.id.notifications:
-                        startActivity(new Intent(getApplicationContext(), CreatePost.class));
+                        startActivity(new Intent(getApplicationContext(),CreatePost.class));
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.menu:
@@ -114,3 +110,4 @@ public class Topic extends AppCompatActivity {
         queue.add(jsonArrayRequest);
     }
 }
+

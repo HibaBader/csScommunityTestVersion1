@@ -1,8 +1,12 @@
 package graduation.project.bzu.cscomunity.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +17,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,10 +39,49 @@ public class ViewPost extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.view_post_main);
+        BottomNavigationView BttomnavigationView =findViewById(R.id.bottomNavigationView);
+        BttomnavigationView.setSelectedItemId(R.id.homeIcon);
+        BttomnavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.homeIcon:
+
+                        return true;
+                    case R.id.question:
+                        startActivity(new Intent(getApplicationContext(), Question.class));
+                        overridePendingTransition(0,0);
+                        return true;
+
+                    case R.id.topic:
+                        startActivity(new Intent(getApplicationContext(), Topic.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                    case R.id.notifications:
+                        startActivity(new Intent(getApplicationContext(), CreatePost.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                    case R.id.menu:
+                        startActivity(new Intent(getApplicationContext(), Menu.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                }
+                return false;
+            }
+        });
         recyclerView = findViewById(R.id.subjectsList);
         posts=new ArrayList<>();
         extractPosts();
+        FloatingActionButton fab_addNewPost = findViewById(R.id.fab_add);
+        fab_addNewPost.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                startActivity(new Intent(getApplicationContext(), CreatePost.class));
+            }
+        }
+        );
+
     }
     private void extractPosts() {
         RequestQueue queue= Volley.newRequestQueue(this);
@@ -76,4 +121,6 @@ public class ViewPost extends AppCompatActivity {
         });
         queue.add(jsonArrayRequest);
     }
+
+
 }

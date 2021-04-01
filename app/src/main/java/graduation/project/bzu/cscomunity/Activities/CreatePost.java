@@ -45,8 +45,9 @@ public class CreatePost extends AppCompatActivity {
     EditText postSubject, postTitle, postTags, postBody;
     Button submit;
     Spinner subjectsSpinner;
-    ArrayList<Subject> subjectsListSpinner = new ArrayList<>();
+    ArrayList<String> subjectsListSpinner = new ArrayList<>();
     private spinnerAdapter adapter;
+    private ArrayAdapter <String>subjectSpinnerAdapter;
 
 
 
@@ -56,17 +57,18 @@ public class CreatePost extends AppCompatActivity {
 
         setContentView(R.layout.create_post_layout);
         BottomNavigationView BttomnavigationView = findViewById(R.id.bottomNavigationView);
-        BttomnavigationView.setSelectedItemId(R.id.question);
+        BttomnavigationView.setSelectedItemId(R.id.notifications);
         BttomnavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.homeIcon:
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        startActivity(new Intent(getApplicationContext(), ViewPost.class));
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.question:
-
+                        startActivity(new Intent(getApplicationContext(), Question.class));
+                        overridePendingTransition(0, 0);
                         return true;
 
                     case R.id.topic:
@@ -74,8 +76,6 @@ public class CreatePost extends AppCompatActivity {
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.notifications:
-                        startActivity(new Intent(getApplicationContext(), Notification.class));
-                        overridePendingTransition(0, 0);
                         return true;
                     case R.id.menu:
                         startActivity(new Intent(getApplicationContext(), Menu.class));
@@ -87,22 +87,23 @@ public class CreatePost extends AppCompatActivity {
         });
         subjectsSpinner = findViewById(R.id.spinner);
         populateSpinner();
-        adapter = new spinnerAdapter(this, subjectsListSpinner);
-        subjectsSpinner.setAdapter(adapter);
+       // adapter = new spinnerAdapter(this, subjectsListSpinner);
+       // subjectsSpinner.setAdapter(adapter);
+        //subjectsSpinner.setSelection(0);
 
-        subjectsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-               Subject clickedItem = (Subject) parent.getItemAtPosition(position);
-               String clickedItemName = clickedItem.getName();
-                Toast.makeText(CreatePost.this,clickedItemName + " selected", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                Toast.makeText(CreatePost.this, " Nothing selected", Toast.LENGTH_LONG).show();
-            }
-        });
+//        subjectsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//               Subject clickedItem = (Subject) parent.getItemAtPosition(position);
+//               String clickedItemName = clickedItem.getName();
+//                Toast.makeText(CreatePost.this,clickedItemName + " selected", Toast.LENGTH_LONG).show();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//                Toast.makeText(CreatePost.this, " Nothing selected", Toast.LENGTH_LONG).show();
+//            }
+//        });
         submit = (Button) findViewById(R.id.post_submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,14 +123,15 @@ public class CreatePost extends AppCompatActivity {
         postTitle = findViewById(R.id.post_title);
         postTags = findViewById(R.id.post_tags);
         postBody = findViewById(R.id.post_body);
+        subjectsSpinner= findViewById(R.id.spinner);
         JSONObject postData = new JSONObject();
 
 
+
         try {
-           Subject ob = (Subject) subjectsSpinner.getSelectedItem();
             postData.put("postType", "Question");
-         //  postData.put("postSubject",  subjectsSpinner.getSelectedItem().toString().trim());
-            postData.put("postSubject", ob.getName().toString());
+           postData.put("postSubject",  subjectsSpinner.getSelectedItem().toString().trim());
+          //  postData.put("postSubject", ob.getName().toString());
             postData.put("postTitle", postTitle.getText().toString().trim());
             postData.put("postTags", postTags.getText().toString().trim());
             postData.put("postBody", postBody.getText().toString().trim());
@@ -169,13 +171,13 @@ public class CreatePost extends AppCompatActivity {
                             JSONObject subjectObject = response.getJSONObject(i);
                             Subject subject = new Subject();
                             subject.setName(subjectObject.getString("name").toString());
-                            subject.setImageURL(subjectObject.getString("image"));
+                          //  subject.setImageURL(subjectObject.getString("image"));
 
 
-                            subjectsListSpinner.add(subject);
-                           // subjectsSpinnerAdapter= new ArrayAdapter<>(CreatePost.this, android.R.layout.simple_spinner_item,subjectsListSpinner);
-                          //  subjectsSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                          //  subjectsSpinner.setAdapter(subjectsSpinnerAdapter);
+                            subjectsListSpinner.add(subject.getName());
+                            subjectSpinnerAdapter= new ArrayAdapter<>(CreatePost.this, android.R.layout.simple_spinner_item,subjectsListSpinner);
+                            subjectSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            subjectsSpinner.setAdapter(subjectSpinnerAdapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

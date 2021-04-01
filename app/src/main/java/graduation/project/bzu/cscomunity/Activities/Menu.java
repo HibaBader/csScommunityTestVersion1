@@ -24,12 +24,12 @@ public class Menu extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.homeIcon:
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        startActivity(new Intent(getApplicationContext(), ViewPost.class));
                         overridePendingTransition(0,0);
 
                         return true;
                     case R.id.question:
-                        startActivity(new Intent(getApplicationContext(), CreatePost.class));
+                        startActivity(new Intent(getApplicationContext(), Question.class));
                         overridePendingTransition(0,0);
                         return true;
 
@@ -38,7 +38,7 @@ public class Menu extends AppCompatActivity {
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.notifications:
-                        startActivity(new Intent(getApplicationContext(), Notification.class));
+                        startActivity(new Intent(getApplicationContext(), CreatePost.class));
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.menu:

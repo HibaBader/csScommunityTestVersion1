@@ -15,13 +15,14 @@
         <activity android:name=".Activities.CreatePost" />
         <activity android:name=".Activities.Menu" />
         <activity android:name=".Activities.Notification" />
-        <activity android:name=".Activities.MainActivity">
+        <activity android:name=".Activities.Question" />
+     <!--   <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity>-->
 
         <activity android:name=".Activities.ViewPost">
             <intent-filter>

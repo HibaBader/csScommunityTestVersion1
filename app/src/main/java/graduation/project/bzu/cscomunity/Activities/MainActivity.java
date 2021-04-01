@@ -25,10 +25,12 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.homeIcon:
+                        startActivity(new Intent(getApplicationContext(), ViewPost.class));
+                        overridePendingTransition(0,0);
 
                         return true;
                     case R.id.question:
-                        startActivity(new Intent(getApplicationContext(), CreatePost.class));
+                        startActivity(new Intent(getApplicationContext(), Question.class));
                         overridePendingTransition(0,0);
                         return true;
 
