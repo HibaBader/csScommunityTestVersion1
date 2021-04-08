@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,9 +18,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,13 +33,16 @@ import java.util.List;
 
 import graduation.project.bzu.cscomunity.Adapters.GetPostsAdapter;
 import graduation.project.bzu.cscomunity.DataModels.Post;
+import graduation.project.bzu.cscomunity.DataModels.User;
 import graduation.project.bzu.cscomunity.R;
 
 public class ViewPost extends AppCompatActivity {
-    private String JSON_URL="http://192.168.1.113:8080/api/post";
+   // private String JSON_URL="http://192.168.1.113:8080/api/get";
     List<Post> posts;
+    List<User> users;
     RecyclerView recyclerView;
     GetPostsAdapter adapter;
+    TextView test;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,8 +78,11 @@ public class ViewPost extends AppCompatActivity {
             }
         });
         recyclerView = findViewById(R.id.subjectsList);
+
         posts=new ArrayList<>();
-        extractPosts();
+        users=new ArrayList<>();
+        extractPosts("http://192.168.1.113:8080/api/get");
+
         FloatingActionButton fab_addNewPost = findViewById(R.id.fab_add);
         fab_addNewPost.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -83,7 +93,7 @@ public class ViewPost extends AppCompatActivity {
         );
 
     }
-    private void extractPosts() {
+    private void extractPosts(String JSON_URL) {
         RequestQueue queue= Volley.newRequestQueue(this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, JSON_URL, null, new Response.Listener<JSONArray>() {
 
@@ -101,9 +111,18 @@ public class ViewPost extends AppCompatActivity {
                         post.setPostTags(postObject.getString("postTags").toString());
                         post.setPostTitle(postObject.getString("postTitle").toString());
                         post.setPostType(postObject.getString("postType").toString());
-                     //   post.setUserID(postObject.getInt("userID"));
+                        String user1=  postObject.getString("user");
+                        Gson g = new Gson();
+                        User user = g.fromJson(user1, User.class);
+
+                    post.setUser(user);
+
+
+
+
 
                         posts.add(post);
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -116,7 +135,7 @@ public class ViewPost extends AppCompatActivity {
         }, new Response.ErrorListener(){
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("tag", "onErrorResponse: " + error.getMessage());
+                Log.d("tag", "onErrorResponse: testExtractPosts" + error.getMessage());
             }
         });
         queue.add(jsonArrayRequest);

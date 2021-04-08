@@ -13,19 +13,24 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import graduation.project.bzu.cscomunity.DataModels.Post;
+import graduation.project.bzu.cscomunity.DataModels.User;
 import graduation.project.bzu.cscomunity.R;
 
 public class GetPostsAdapter extends RecyclerView.Adapter<GetPostsAdapter.ViewHolder> {
 
     LayoutInflater inflater;
     List<Post> posts;
+    List<User> users;
 
     public GetPostsAdapter(Context context, List<Post> posts){
         this.inflater=LayoutInflater.from(context);
         this.posts = posts;
+
 
 
     }
@@ -39,7 +44,7 @@ public class GetPostsAdapter extends RecyclerView.Adapter<GetPostsAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // holder.userName.setText(posts.get(position).getUserID());
+     holder.userName.setText(posts.get(position).getUser().getUserName());
 
         if(posts.get(position).getPostType().equals("Question")){
             holder.postType.setText("Q");}
@@ -95,7 +100,7 @@ public class GetPostsAdapter extends RecyclerView.Adapter<GetPostsAdapter.ViewHo
         }
 
 
-        //Picasso.get().load(subjects.get(position).getImageURL()).into(holder.subjectImage);
+        Picasso.get().load(posts.get(position).getUser().getUserImage()).into(holder.userImage);
 
     }
 

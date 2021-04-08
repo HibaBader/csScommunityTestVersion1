@@ -131,6 +131,7 @@ public class CreatePost extends AppCompatActivity {
 
         try {
             postData.put("postType", "Question");
+            Log.d("TAG", "submitPost: " + subjectsSpinner.getSelectedItem().toString());
            postData.put("postSubject",  subjectsSpinner.getSelectedItem().toString().trim());
           //  postData.put("postSubject", ob.getName().toString());
             postData.put("postTitle", postTitle.getText().toString().trim());

@@ -16,9 +16,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,10 +31,12 @@ import java.util.List;
 
 import graduation.project.bzu.cscomunity.Adapters.GetPostsAdapter;
 import graduation.project.bzu.cscomunity.DataModels.Post;
+import graduation.project.bzu.cscomunity.DataModels.User;
 import graduation.project.bzu.cscomunity.R;
 
 public class TopicCardView extends AppCompatActivity {
     List<Post> posts;
+    List<User> users;
     RecyclerView recyclerView;
     GetPostsAdapter adapter;
     @Override
@@ -71,6 +75,7 @@ public class TopicCardView extends AppCompatActivity {
         });
         recyclerView = findViewById(R.id.subjectsList);
         posts=new ArrayList<>();
+        users = new ArrayList<>();
         extractPosts();
 
 
@@ -90,7 +95,7 @@ public class TopicCardView extends AppCompatActivity {
         RequestQueue queue= Volley.newRequestQueue(this);
         Intent intent = getIntent();
         String name= (String)intent.getExtras().get("subjectName");
-        String JSON_URL="http://192.168.1.113:8080/api/post/"+"Topic/"+name;
+        String JSON_URL="http://192.168.1.113:8080/api/typeSubject/"+"Topic/"+name;
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, JSON_URL, null, new Response.Listener<JSONArray>() {
 
             @Override
@@ -107,7 +112,14 @@ public class TopicCardView extends AppCompatActivity {
                         post.setPostTags(postObject.getString("postTags").toString());
                         post.setPostTitle(postObject.getString("postTitle").toString());
                         post.setPostType(postObject.getString("postType").toString());
-                        //   post.setUserID(postObject.getInt("userID"));
+
+                        String user1=  postObject.getString("user");
+                        Gson g = new Gson();
+                        User user = g.fromJson(user1, User.class);
+
+                        post.setUser(user);
+
+
 
                         posts.add(post);
                     } catch (JSONException e) {
@@ -127,5 +139,48 @@ public class TopicCardView extends AppCompatActivity {
         });
         queue.add(jsonArrayRequest);
     }
-
+//    public User getUser(int userId){
+//        User user = new User();
+//        String json_url="http://192.168.1.113:8080/api/"+userId;
+//        RequestQueue queue= Volley.newRequestQueue(this);
+//        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.GET,json_url, null, new Response.Listener<JSONObject>() {
+//            @Override
+//            public void onResponse(JSONObject response) {
+//
+//                try {
+//
+//
+//                    user.setUserID(userId);
+//                    user.setUserType(response.getString("userType").toString());
+//                    user.setEmail(response.getString("email").toString());
+//                    user.setUserPassword(response.getString("userPassword").toString());
+//                    user.setFirstName(response.getString("firstName").toString());
+//                    user.setLastName(response.getString("lastName").toString());
+//                    user.setUserImage(response.getString("userImage").toString());
+////                    for (int i=0; i<users.size();i++){
+////                        if(users.get(i).getUserID()==userId){
+////                            break;
+////                        }
+////                        if(users.get(i).getUserID()!=userId && i==users.size()-1){
+//                       users.add(user);
+////                        }
+////                    }
+//
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//
+//        }, new Response.ErrorListener(){
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Log.d("tag", "onErrorResponse: " + error.getMessage());
+//            }
+//        });
+//        queue.add(objectRequest);
+//        return user;
+//
+//    }
 }

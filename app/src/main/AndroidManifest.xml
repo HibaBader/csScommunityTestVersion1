@@ -16,7 +16,8 @@
         <activity android:name=".Activities.Menu" />
         <activity android:name=".Activities.Notification" />
         <activity android:name=".Activities.Question" />
-        <activity android:name=".Activities.QuestionCardView" />
+        <activity android:name=".Activities.QuestionCardView"/>
+
         <activity android:name=".Activities.TopicCardView" />
      <!--   <activity android:name=".Activities.MainActivity">
             <intent-filter>
