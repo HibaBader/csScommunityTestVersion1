@@ -38,7 +38,7 @@ import graduation.project.bzu.cscomunity.DataModels.User;
 import graduation.project.bzu.cscomunity.R;
 
 public class ViewPost extends AppCompatActivity {
-   // private String JSON_URL="http://192.168.1.113:8080/api/get";
+   // private String JSON_URL="http://192.168.1.111:8080/api/get";
     List<Post> posts;
     List<User> users;
     RecyclerView recyclerView;
@@ -84,7 +84,7 @@ public class ViewPost extends AppCompatActivity {
 
         posts=new ArrayList<>();
         users=new ArrayList<>();
-        extractPosts("http://192.168.1.113:8080/api/get");
+        extractPosts("http://192.168.1.111:8080/api/get");
 
         FloatingActionButton fab_addNewPost = findViewById(R.id.fab_add);
         fab_addNewPost.setOnClickListener(new View.OnClickListener(){
@@ -107,7 +107,7 @@ public class ViewPost extends AppCompatActivity {
                         JSONObject postObject = response.getJSONObject(i);
                         Post post = new Post();
 
-                        post.setAttachment(postObject.getString("attachment").toString());
+                        post.setPostAttachment(postObject.getString("postAttachment").toString());
                         post.setPostBody(postObject.getString("postBody").toString());
                         post.setPostID(postObject.getInt("postID"));
                         post.setPostSubject(postObject.getString("postSubject").toString());
@@ -143,6 +143,4 @@ public class ViewPost extends AppCompatActivity {
         });
         queue.add(jsonArrayRequest);
     }
-
-
 }

@@ -3,15 +3,12 @@ package graduation.project.bzu.cscomunity.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,7 +32,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import graduation.project.bzu.cscomunity.Adapters.GridSubjectsListAdapter;
 import graduation.project.bzu.cscomunity.Adapters.spinnerAdapter;
 import graduation.project.bzu.cscomunity.DataModels.Subject;
 import graduation.project.bzu.cscomunity.R;
@@ -45,12 +41,13 @@ import graduation.project.bzu.cscomunity.R;
 public class CreatePost extends AppCompatActivity {
     EditText postSubject, postTitle, postTags, postBody;
     Button submit;
-    Spinner subjectsSpinner;
+    TextView subjectNameValue;
     ArrayList<String> subjectsListSpinner = new ArrayList<>();
     private spinnerAdapter adapter;
     private ArrayAdapter <String>subjectSpinnerAdapter;
     TextView textFile;
-
+    Intent intent;
+    String name;
     private static final int PICKFILE_RESULT_CODE = 1;
 
 
@@ -58,10 +55,18 @@ public class CreatePost extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        intent = getIntent();
+        name= intent.getStringExtra("subjectName");
+        Log.d("TAG", "onCreate: HASLSLOSDOSKL"+name);
 
         setContentView(R.layout.create_post_layout);
         BottomNavigationView BttomnavigationView = findViewById(R.id.bottomNavigationView);
         BttomnavigationView.setSelectedItemId(R.id.notifications);
+        postTitle = findViewById(R.id.post_title);
+        postTags = findViewById(R.id.post_tags);
+        postBody = findViewById(R.id.post_body);
+        subjectNameValue= findViewById(R.id.subjectNameValue);
+        subjectNameValue.setText(name);
         BttomnavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -90,8 +95,7 @@ public class CreatePost extends AppCompatActivity {
                 return false;
             }
         });
-        subjectsSpinner = findViewById(R.id.spinner);
-        populateSpinner();
+        subjectNameValue = findViewById(R.id.subjectNameValue);
         Button buttonPick = (Button)findViewById(R.id.post_attachment);
         textFile = (TextView)findViewById(R.id.filePath);
 
@@ -112,7 +116,7 @@ public class CreatePost extends AppCompatActivity {
                 // TODO Auto-generated method stub
 
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("file/*");
+                intent.setType("*/*");
                 startActivityForResult(intent,PICKFILE_RESULT_CODE);
 
             }});
@@ -137,26 +141,26 @@ public class CreatePost extends AppCompatActivity {
     }
 
     private void submitPost() {
-        String post_url = "http://192.168.1.113:8080/api/post";
+        String post_url = "http://192.168.1.111:8080/api/post";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
        // postSubject = findViewById(R.id.post_subject);
-        postTitle = findViewById(R.id.post_title);
-        postTags = findViewById(R.id.post_tags);
-        postBody = findViewById(R.id.post_body);
-        subjectsSpinner= findViewById(R.id.spinner);
+
+        //Log.d("TAG", "submitPost: "+name);
         JSONObject postData = new JSONObject();
 
 
 
         try {
             postData.put("postType", "Question");
-            Log.d("TAG", "submitPost: " + subjectsSpinner.getSelectedItem().toString());
-           postData.put("postSubject",  subjectsSpinner.getSelectedItem().toString().trim());
-          //  postData.put("postSubject", ob.getName().toString());
+           // Log.d("TAG", "submitPost: " + subjectNameValue.getSelectedItem().toString());
+          // postData.put("postSubject",  subjectNameValue.getSelectedItem().toString().trim());
+            //postData.put("post")
+            postData.put("postSubject", name);
             postData.put("postTitle", postTitle.getText().toString().trim());
             postData.put("postTags", postTags.getText().toString().trim());
             postData.put("postBody", postBody.getText().toString().trim());
-            postData.put("attachment", "atsztachment");
+            Log.d("TAG", "submitPost: "+textFile.getText().toString().trim());
+            postData.put("postAttachment", textFile.getText().toString().trim());
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -178,38 +182,5 @@ public class CreatePost extends AppCompatActivity {
         requestQueue.add(jsonObjectRequest);
 
     }
-    private void populateSpinner(){
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String url = "http://192.168.1.113:8080/api/subject";
 
-            RequestQueue queue= Volley.newRequestQueue(this);
-            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-
-                @Override
-                public void onResponse(JSONArray response) {
-                    for (int i=0; i< response.length();i++){
-                        try {
-                            JSONObject subjectObject = response.getJSONObject(i);
-                            Subject subject = new Subject();
-                            subject.setName(subjectObject.getString("name").toString());
-                          //  subject.setImageURL(subjectObject.getString("image"));
-
-
-                            subjectsListSpinner.add(subject.getName());
-                            subjectSpinnerAdapter= new ArrayAdapter<>(CreatePost.this, android.R.layout.simple_spinner_item,subjectsListSpinner);
-                            subjectSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                            subjectsSpinner.setAdapter(subjectSpinnerAdapter);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }, new Response.ErrorListener(){
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.d("tag", "onErrorResponse: " + error.getMessage());
-                }
-            });
-        queue.add(jsonArrayRequest);
-        }
 }

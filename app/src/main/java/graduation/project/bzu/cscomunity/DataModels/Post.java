@@ -8,7 +8,7 @@ public class Post {
     private String postTitle;
     private String postTags;
     private String postBody;
-    private String attachment;
+    private String postAttachment;
     private User user;
 
 
@@ -17,7 +17,7 @@ public class Post {
     }
 
     public Post(int postID, String postType, String postSubject, String postTitle, String postTags,
-                String postBody, String attachment,User user) {
+                String postBody, String postAttachment,User user) {
         super();
         this.postID = postID;
         this.postType = postType;
@@ -25,7 +25,7 @@ public class Post {
         this.postTitle = postTitle;
         this.postTags = postTags;
         this.postBody = postBody;
-        this.attachment = attachment;
+        this.postAttachment = postAttachment;
        this.user = user;
     }
 
@@ -77,12 +77,12 @@ public class Post {
         this.postBody = postBody;
     }
 
-    public String getAttachment() {
-        return attachment;
+    public String getPostAttachment() {
+        return postAttachment;
     }
 
-    public void setAttachment(String postAttachment) {
-        this.attachment = postAttachment;
+    public void setPostAttachment(String postAttachment) {
+        this.postAttachment = postAttachment;
     }
 
     public User getUser() {
@@ -102,7 +102,7 @@ public class Post {
                 ", postTitle='" + postTitle + '\'' +
                 ", postTags='" + postTags + '\'' +
                 ", postBody='" + postBody + '\'' +
-                ", attachment='" + attachment + '\'' +
+                ", postAttachment='" + postAttachment + '\'' +
                 ", user=" + user +
                 '}';
     }

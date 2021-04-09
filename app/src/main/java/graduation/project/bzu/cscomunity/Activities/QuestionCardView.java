@@ -41,10 +41,15 @@ public class QuestionCardView extends AppCompatActivity {
     List<User> users;
     RecyclerView recyclerView;
     GetPostsAdapter adapter;
+    Intent intent;
+    String name;
     User user = new User();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        name= intent.getStringExtra("subjectName");
+        Log.d("TAG", "onCreate: YESS??"+name);
         setContentView(R.layout.view_question_and_topic_main);
         BottomNavigationView BttomnavigationView =findViewById(R.id.bottomNavigationView);
         BttomnavigationView.setSelectedItemId(R.id.homeIcon);
@@ -93,7 +98,11 @@ public class QuestionCardView extends AppCompatActivity {
         fab_addNewPost.setOnClickListener(new View.OnClickListener(){
                                               @Override
                                               public void onClick(View view){
-                                                  startActivity(new Intent(getApplicationContext(), CreatePost.class));
+                                                  Intent intent1=new Intent(getApplicationContext(),CreatePost.class);
+                                                  Log.d("osama", "onClick: "+name);
+                                                  intent1.putExtra("subjectName",name);
+                                                  startActivity(intent1);
+
                                               }
                                           }
         );
@@ -101,9 +110,7 @@ public class QuestionCardView extends AppCompatActivity {
     }
     private void extractPosts() {
         RequestQueue queue= Volley.newRequestQueue(this);
-        Intent intent = getIntent();
-        String name= (String)intent.getExtras().get("subjectName");
-        String JSON_URL="http://192.168.1.113:8080/api/typeSubject/"+"Question/"+name;
+        String JSON_URL="http://192.168.1.111:8080/api/typeSubject/Question/"+name;
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, JSON_URL, null, new Response.Listener<JSONArray>() {
 
             @Override
@@ -113,7 +120,7 @@ public class QuestionCardView extends AppCompatActivity {
                         JSONObject postObject = response.getJSONObject(i);
                         Post post = new Post();
 
-                        post.setAttachment(postObject.getString("attachment").toString());
+                        post.setPostAttachment(postObject.getString("postAttachment").toString());
                         post.setPostBody(postObject.getString("postBody").toString());
                         post.setPostID(postObject.getInt("postID"));
                         post.setPostSubject(postObject.getString("postSubject").toString());

@@ -52,8 +52,8 @@ public class GridSubjectsListAdapter extends RecyclerView.Adapter<GridSubjectsLi
             @Override
             public void onClick(View view){
                 Intent intent = new Intent(context, QuestionCardView.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("subjectName",subjects.get(position).getName());
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
         });

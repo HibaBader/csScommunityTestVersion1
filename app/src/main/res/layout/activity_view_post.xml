@@ -9,8 +9,8 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card"
-        android:layout_width="390dp"
-        android:layout_height="235dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -140,6 +140,7 @@
                 android:id="@+id/images_previews"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -227,38 +228,7 @@
                     app:layout_constraintStart_toEndOf="@id/video_preview1"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <VideoView
-                    android:id="@+id/video_preview3"
-                    style="@style/attachment_style"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="5dp"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/video_preview2"
-                    app:layout_constraintTop_toTopOf="parent" />
 
-                <VideoView
-                    android:id="@+id/video_preview4"
-                    style="@style/attachment_style"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="5dp"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/video_preview3"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <VideoView
-                    android:id="@+id/video_preview5"
-                    style="@style/attachment_style"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="5dp"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/video_preview4"
-                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout

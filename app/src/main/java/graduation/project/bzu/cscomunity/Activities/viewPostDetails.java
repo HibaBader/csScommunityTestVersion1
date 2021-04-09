@@ -127,7 +127,7 @@ public class viewPostDetails extends AppCompatActivity{
         RequestQueue queue= Volley.newRequestQueue(this);
         Intent intent = getIntent();
        int postID= (int) intent.getExtras().get("postID");
-        String JSON_URL="http://192.168.1.113:8080/api/getPost/"+postID;
+        String JSON_URL="http://192.168.1.111:8080/api/getPost/"+postID;
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, JSON_URL, null, new Response.Listener<JSONArray>() {
 
             @Override
@@ -137,7 +137,7 @@ public class viewPostDetails extends AppCompatActivity{
                         JSONObject postObject = response.getJSONObject(i);
                         Post post = new Post();
 
-                        post.setAttachment(postObject.getString("attachment").toString());
+                        post.setPostAttachment(postObject.getString("postAttachment").toString());
                         post.setPostBody(postObject.getString("postBody").toString());
                         post.setPostID(postObject.getInt("postID"));
                         post.setPostSubject(postObject.getString("postSubject").toString());

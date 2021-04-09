@@ -106,7 +106,64 @@ public class GetPostsAdapter extends RecyclerView.Adapter<GetPostsAdapter.ViewHo
             holder.tags.setVisibility(View.VISIBLE);
 
         }
+        String imagesString=posts.get(position).getPostAttachment();
+        String[] imagesArray=imagesString.split(",");
+        if(imagesArray.length==1){
+            Picasso.get().load(imagesArray[0]).into(holder.image1);
+            holder.imagesPreviews.setVisibility(View.VISIBLE);
+            holder.image1.setVisibility(View.VISIBLE);
+        }else if(imagesArray.length==2){
+            Picasso.get().load(imagesArray[0]).into(holder.image1);
+            Picasso.get().load(imagesArray[1]).into(holder.image2);
+            holder.imagesPreviews.setVisibility(View.VISIBLE);
+            holder.image1.setVisibility(View.VISIBLE);
+            holder.image2.setVisibility(View.VISIBLE);
+        }else if(imagesArray.length==3){
+            Picasso.get().load(imagesArray[0]).into(holder.image1);
+            Picasso.get().load(imagesArray[1]).into(holder.image2);
+            Picasso.get().load(imagesArray[2]).into(holder.image3);
+            holder.imagesPreviews.setVisibility(View.VISIBLE);
+            holder.image1.setVisibility(View.VISIBLE);
+            holder.image2.setVisibility(View.VISIBLE);
+            holder.image3.setVisibility(View.VISIBLE);
+        }else if(imagesArray.length==4){
+            Picasso.get().load(imagesArray[0]).into(holder.image1);
+            Picasso.get().load(imagesArray[1]).into(holder.image2);
+            Picasso.get().load(imagesArray[2]).into(holder.image3);
+            Picasso.get().load(imagesArray[3]).into(holder.image4);
+            holder.imagesPreviews.setVisibility(View.VISIBLE);
+            holder.image1.setVisibility(View.VISIBLE);
+            holder.image2.setVisibility(View.VISIBLE);
+            holder.image3.setVisibility(View.VISIBLE);
+            holder.image4.setVisibility(View.VISIBLE);
 
+        }else if(imagesArray.length==5) {
+            Picasso.get().load(imagesArray[0]).into(holder.image1);
+            Picasso.get().load(imagesArray[1]).into(holder.image2);
+            Picasso.get().load(imagesArray[2]).into(holder.image3);
+            Picasso.get().load(imagesArray[3]).into(holder.image4);
+            Picasso.get().load(imagesArray[4]).into(holder.image5);
+            holder.imagesPreviews.setVisibility(View.VISIBLE);
+            holder.image1.setVisibility(View.VISIBLE);
+            holder.image2.setVisibility(View.VISIBLE);
+            holder.image3.setVisibility(View.VISIBLE);
+            holder.image4.setVisibility(View.VISIBLE);
+            holder.image5.setVisibility(View.VISIBLE);
+        }
+        /*String videosString=posts.get(position).getPostTags();
+        String[] videosArray=videosString.split(",");
+        if(videosArray.length==1){
+            Picasso.get().load(videosArray[0]).into(holder.video1);
+            Picasso.get().load(imagesArray[1]).into(holder.image2);
+            holder.tag1.setVisibility(View.VISIBLE);
+            holder.tags.setVisibility(View.VISIBLE);
+        }else if(videosArray.length==2){
+            Picasso.get().load(videosArray[0]).into(holder.video1);
+            Picasso.get().load(videosArray[1]).into(holder.video2);
+            holder.tag1.setVisibility(View.VISIBLE);
+            holder.tag2.setVisibility(View.VISIBLE);
+            holder.tags.setVisibility(View.VISIBLE);
+        }*/
 
         Picasso.get().load(posts.get(position).getUser().getUserImage()).into(holder.image);
 
@@ -136,7 +193,7 @@ public class GetPostsAdapter extends RecyclerView.Adapter<GetPostsAdapter.ViewHo
         CircleImageView image;
 
 
-        VideoView video1,video2,video3,video4,video5;
+        VideoView video1,video2;
         ConstraintLayout tags,imagesPreviews,videosPreviews;
         CardView cardView;
 
@@ -166,9 +223,6 @@ public class GetPostsAdapter extends RecyclerView.Adapter<GetPostsAdapter.ViewHo
             image5=itemView.findViewById(R.id.image_preview5);
             video1=itemView.findViewById(R.id.video_preview1);
             video2=itemView.findViewById(R.id.video_preview2);
-            video3=itemView.findViewById(R.id.video_preview3);
-            video4=itemView.findViewById(R.id.video_preview4);
-            video5=itemView.findViewById(R.id.video_preview5);
             tags=itemView.findViewById(R.id.tags);
             imagesPreviews=itemView.findViewById(R.id.images_previews);
             videosPreviews=itemView.findViewById(R.id.videos_previews);
