@@ -2,6 +2,7 @@ package graduation.project.bzu.cscomunity.Adapters;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +19,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+import graduation.project.bzu.cscomunity.Activities.QuestionCardView;
+import graduation.project.bzu.cscomunity.Activities.viewPostDetails;
 import graduation.project.bzu.cscomunity.DataModels.Post;
 import graduation.project.bzu.cscomunity.DataModels.User;
 import graduation.project.bzu.cscomunity.R;
@@ -26,10 +31,12 @@ public class GetPostsAdapter extends RecyclerView.Adapter<GetPostsAdapter.ViewHo
     LayoutInflater inflater;
     List<Post> posts;
     List<User> users;
+    Context context;
 
     public GetPostsAdapter(Context context, List<Post> posts){
         this.inflater=LayoutInflater.from(context);
         this.posts = posts;
+        this.context=context;
 
 
 
@@ -44,6 +51,7 @@ public class GetPostsAdapter extends RecyclerView.Adapter<GetPostsAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
      holder.userName.setText(posts.get(position).getUser().getUserName());
 
         if(posts.get(position).getPostType().equals("Question")){
@@ -100,7 +108,20 @@ public class GetPostsAdapter extends RecyclerView.Adapter<GetPostsAdapter.ViewHo
         }
 
 
-        Picasso.get().load(posts.get(position).getUser().getUserImage()).into(holder.userImage);
+        Picasso.get().load(posts.get(position).getUser().getUserImage()).into(holder.image);
+
+        holder.cardView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(context, viewPostDetails.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+               intent.putExtra("postID",posts.get(position).getPostID());
+                context.startActivity(intent);
+            }
+        });
+
+
+
 
     }
 
@@ -111,9 +132,14 @@ public class GetPostsAdapter extends RecyclerView.Adapter<GetPostsAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView userName,postTime,postType,postTitle,postContent,tag1,tag2,tag3,tag4,tag5,postViews,postComments,postShares;
-        ImageView userImage,postMoreMenu,image1,image2,image3,image4,image5;
+        ImageView postMoreMenu,image1,image2,image3,image4,image5;
+        CircleImageView image;
+
+
         VideoView video1,video2,video3,video4,video5;
         ConstraintLayout tags,imagesPreviews,videosPreviews;
+        CardView cardView;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -131,7 +157,7 @@ public class GetPostsAdapter extends RecyclerView.Adapter<GetPostsAdapter.ViewHo
             postViews=itemView.findViewById(R.id.post_views);
             postComments=itemView.findViewById(R.id.post_comments);
             postShares=itemView.findViewById(R.id.post_shares);
-            userImage=itemView.findViewById(R.id.userImage);
+            image = (CircleImageView) itemView.findViewById(R.id.userImage);
             postMoreMenu=itemView.findViewById(R.id.post_more_menu);
             image1=itemView.findViewById(R.id.image_preview1);
             image2=itemView.findViewById(R.id.image_preview2);
@@ -146,6 +172,7 @@ public class GetPostsAdapter extends RecyclerView.Adapter<GetPostsAdapter.ViewHo
             tags=itemView.findViewById(R.id.tags);
             imagesPreviews=itemView.findViewById(R.id.images_previews);
             videosPreviews=itemView.findViewById(R.id.videos_previews);
+            cardView = itemView.findViewById(R.id.card);
 
         }
     }

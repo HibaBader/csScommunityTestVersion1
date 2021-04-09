@@ -1,5 +1,6 @@
 package graduation.project.bzu.cscomunity.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,9 +44,11 @@ public class ViewPost extends AppCompatActivity {
     RecyclerView recyclerView;
     GetPostsAdapter adapter;
     TextView test;
+  public static   Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context=this;
         setContentView(R.layout.view_post_main);
         BottomNavigationView BttomnavigationView =findViewById(R.id.bottomNavigationView);
         BttomnavigationView.setSelectedItemId(R.id.homeIcon);

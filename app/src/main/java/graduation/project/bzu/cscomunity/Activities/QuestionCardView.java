@@ -35,7 +35,7 @@ import graduation.project.bzu.cscomunity.DataModels.Subject;
 import graduation.project.bzu.cscomunity.DataModels.User;
 import graduation.project.bzu.cscomunity.R;
 
-public class QuestionCardView extends ViewPost {
+public class QuestionCardView extends AppCompatActivity {
 
     List<Post> posts;
     List<User> users;

@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -48,6 +49,9 @@ public class CreatePost extends AppCompatActivity {
     ArrayList<String> subjectsListSpinner = new ArrayList<>();
     private spinnerAdapter adapter;
     private ArrayAdapter <String>subjectSpinnerAdapter;
+    TextView textFile;
+
+    private static final int PICKFILE_RESULT_CODE = 1;
 
 
 
@@ -88,23 +92,9 @@ public class CreatePost extends AppCompatActivity {
         });
         subjectsSpinner = findViewById(R.id.spinner);
         populateSpinner();
-       // adapter = new spinnerAdapter(this, subjectsListSpinner);
-       // subjectsSpinner.setAdapter(adapter);
-        //subjectsSpinner.setSelection(0);
+        Button buttonPick = (Button)findViewById(R.id.post_attachment);
+        textFile = (TextView)findViewById(R.id.filePath);
 
-//        subjectsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//               Subject clickedItem = (Subject) parent.getItemAtPosition(position);
-//               String clickedItemName = clickedItem.getName();
-//                Toast.makeText(CreatePost.this,clickedItemName + " selected", Toast.LENGTH_LONG).show();
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//                Toast.makeText(CreatePost.this, " Nothing selected", Toast.LENGTH_LONG).show();
-//            }
-//        });
         submit = (Button) findViewById(R.id.post_submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +105,35 @@ public class CreatePost extends AppCompatActivity {
             }
         });
 
+        buttonPick.setOnClickListener(new Button.OnClickListener(){
+
+            @Override
+            public void onClick(View arg0) {
+                // TODO Auto-generated method stub
+
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("file/*");
+                startActivityForResult(intent,PICKFILE_RESULT_CODE);
+
+            }});
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO Auto-generated method stub
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case PICKFILE_RESULT_CODE:
+                if (resultCode == RESULT_OK) {
+                    String FilePath = data.getData().getPath();
+                    textFile.setText(FilePath);
+                }
+                break;
+
+            default:
+                throw new IllegalStateException("Unexpected value: " + requestCode);
+        }
     }
 
     private void submitPost() {
