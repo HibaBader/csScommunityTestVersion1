@@ -30,7 +30,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import graduation.project.bzu.cscomunity.Adapters.spinnerAdapter;
 import graduation.project.bzu.cscomunity.DataModels.Subject;
@@ -147,6 +149,9 @@ public class CreatePost extends AppCompatActivity {
 
         //Log.d("TAG", "submitPost: "+name);
         JSONObject postData = new JSONObject();
+        Date date =new Date();
+        SimpleDateFormat simple= new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+        final String strdate =simple.format(date);
 
 
 
@@ -161,6 +166,7 @@ public class CreatePost extends AppCompatActivity {
             postData.put("postBody", postBody.getText().toString().trim());
             Log.d("TAG", "submitPost: "+textFile.getText().toString().trim());
             postData.put("postAttachment", textFile.getText().toString().trim());
+            postData.put("postTime", strdate);
 
         } catch (JSONException e) {
             e.printStackTrace();

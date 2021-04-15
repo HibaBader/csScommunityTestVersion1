@@ -3,6 +3,7 @@ package graduation.project.bzu.cscomunity.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 
@@ -43,7 +46,22 @@ public class GetPostsAdapter extends RecyclerView.Adapter<GetPostsAdapter.ViewHo
 
 
     }
+    private String calculateTimeAgo(String times) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
 
+        try {
+            long time = sdf.parse(times).getTime();
+            Log.d("TAG", "calculateTime: "+time);
+            long now = System.currentTimeMillis();
+            Log.d("TAG", "calculateNow: "+now);
+            CharSequence ago = DateUtils.getRelativeTimeSpanString(time, now, DateUtils.MINUTE_IN_MILLIS);
+
+            return ago+ "";
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -54,6 +72,7 @@ public class GetPostsAdapter extends RecyclerView.Adapter<GetPostsAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
+       
      holder.userName.setText(posts.get(position).getUser().getUserName());
 
         if(posts.get(position).getPostType().equals("Question")){
@@ -184,6 +203,8 @@ public class GetPostsAdapter extends RecyclerView.Adapter<GetPostsAdapter.ViewHo
             holder.tag2.setVisibility(View.VISIBLE);
             holder.tags.setVisibility(View.VISIBLE);
         }*/
+        holder.postTime.setText(calculateTimeAgo(posts.get(position).getPostTime()));
+        //holder.postTime.setText("hello");
 
         Picasso.get().load(posts.get(position).getUser().getUserImage()).into(holder.image);
 
@@ -209,8 +230,8 @@ public class GetPostsAdapter extends RecyclerView.Adapter<GetPostsAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView userName,postTime,postType,postTitle,postContent,tag1,tag2,tag3,tag4,tag5,postViews,postComments,postShares;
-        ImageView postMoreMenu,image1,image2,image3,image4,image5;
-        CircleImageView image;
+        ImageView postMoreMenu,image1,image2,image3,image4,image5,image;
+      //  CircleImageView image;
 
 
         VideoView video1,video2;
@@ -234,7 +255,7 @@ public class GetPostsAdapter extends RecyclerView.Adapter<GetPostsAdapter.ViewHo
             postViews=itemView.findViewById(R.id.post_views);
             postComments=itemView.findViewById(R.id.post_comments);
             postShares=itemView.findViewById(R.id.post_shares);
-            image = (CircleImageView) itemView.findViewById(R.id.userImage);
+            image =  itemView.findViewById(R.id.userImage);
             postMoreMenu=itemView.findViewById(R.id.post_more_menu);
             image1=itemView.findViewById(R.id.image_preview1);
             image2=itemView.findViewById(R.id.image_preview2);

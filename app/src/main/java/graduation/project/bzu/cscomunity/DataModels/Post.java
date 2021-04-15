@@ -10,6 +10,7 @@ public class Post {
     private String postBody;
     private String postAttachment;
     private User user;
+    private String postTime;
 
 
     public Post() {
@@ -17,7 +18,7 @@ public class Post {
     }
 
     public Post(int postID, String postType, String postSubject, String postTitle, String postTags,
-                String postBody, String postAttachment,User user) {
+                String postBody, String postAttachment,User user,String postTime) {
         super();
         this.postID = postID;
         this.postType = postType;
@@ -27,6 +28,7 @@ public class Post {
         this.postBody = postBody;
         this.postAttachment = postAttachment;
        this.user = user;
+       this.postTime=postTime;
     }
 
     public int getPostID() {
@@ -93,6 +95,14 @@ public class Post {
         this.user = user;
     }
 
+    public String getPostTime() {
+        return postTime;
+    }
+
+    public void setPostTime(String postTime) {
+        this.postTime = postTime;
+    }
+
     @Override
     public String toString() {
         return "Post{" +
@@ -103,6 +113,7 @@ public class Post {
                 ", postTags='" + postTags + '\'' +
                 ", postBody='" + postBody + '\'' +
                 ", postAttachment='" + postAttachment + '\'' +
+                ", postTime='" + postTime+ '\'' +
                 ", user=" + user +
                 '}';
     }

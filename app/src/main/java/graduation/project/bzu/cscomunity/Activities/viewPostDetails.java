@@ -2,6 +2,7 @@ package graduation.project.bzu.cscomunity.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,6 +31,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,9 +81,6 @@ public class viewPostDetails extends AppCompatActivity{
         image5=findViewById(R.id.image_preview5);
         video1=findViewById(R.id.video_preview1);
         video2=findViewById(R.id.video_preview2);
-        video3=findViewById(R.id.video_preview3);
-        video4=findViewById(R.id.video_preview4);
-        video5=findViewById(R.id.video_preview5);
         tags=findViewById(R.id.tags);
         imagesPreviews=findViewById(R.id.images_previews);
         videosPreviews=findViewById(R.id.videos_previews);
@@ -145,6 +145,7 @@ public class viewPostDetails extends AppCompatActivity{
                         post.setPostTitle(postObject.getString("postTitle").toString());
                         post.setPostType(postObject.getString("postType").toString());
                         String user1=  postObject.getString("user");
+                        post.setPostTime(postObject.getString("postTime").toString());
                         Gson g = new Gson();
                         User user = g.fromJson(user1, User.class);
                         post.setUser(user);
@@ -158,6 +159,7 @@ public class viewPostDetails extends AppCompatActivity{
                            postType.setText("T");}
                         postTitle.setText(post.getPostTitle());
                         postContent.setText(post.getPostBody());
+                        postTime.setText(calculateTimeAgo(post.getPostTime()));
                         String tagsString=post.getPostTags();
                         String[] tagsArray=tagsString.split(",");
                         if(tagsArray.length==1){
@@ -185,7 +187,7 @@ public class viewPostDetails extends AppCompatActivity{
                             tag4.setText(tagsArray[3]);
                             tag1.setVisibility(View.VISIBLE);
                             tag2.setVisibility(View.VISIBLE);
-                           tag3.setVisibility(View.VISIBLE);
+                            tag3.setVisibility(View.VISIBLE);
                             tag4.setVisibility(View.VISIBLE);
                             tags.setVisibility(View.VISIBLE);
 
@@ -219,7 +221,21 @@ public class viewPostDetails extends AppCompatActivity{
         });
         queue.add(jsonArrayRequest);
     }
+    private String calculateTimeAgo(String times) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
 
+        try {
+            long time = sdf.parse(times).getTime();
+
+            long now = System.currentTimeMillis();
+            CharSequence ago = DateUtils.getRelativeTimeSpanString(time, now, DateUtils.MINUTE_IN_MILLIS);
+
+            return ago+ "";
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 
 
 }

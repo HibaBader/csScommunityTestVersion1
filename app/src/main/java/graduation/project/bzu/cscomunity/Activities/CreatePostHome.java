@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,7 +28,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import graduation.project.bzu.cscomunity.Adapters.spinnerAdapter;
 import graduation.project.bzu.cscomunity.DataModels.Subject;
@@ -38,6 +41,7 @@ public class CreatePostHome extends AppCompatActivity {
     Button submit;
     Spinner subjectsSpinner;
     Spinner subjectsSpinner2;
+    TextView textFile;
     ArrayList<String> subjectsListSpinner = new ArrayList<>();
     private spinnerAdapter adapter;
     private ArrayAdapter<String> subjectSpinnerAdapter;
@@ -88,20 +92,25 @@ public class CreatePostHome extends AppCompatActivity {
         subjectSpinnerAdapter2= ArrayAdapter.createFromResource(this, R.array.PostType,android.R.layout.simple_spinner_item);
         subjectSpinnerAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         subjectsSpinner2.setAdapter(subjectSpinnerAdapter2);
-
+        textFile = (TextView)findViewById(R.id.filePath);
         submit = (Button) findViewById(R.id.post_submit1);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                submitPost();
+                try {
+                    submitPost();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 Toast.makeText(CreatePostHome.this, "Success", Toast.LENGTH_SHORT).show();
             }
         });
 
     }
 
-    private void submitPost() {
+    private void submitPost() throws JSONException {
+
         String post_url = "http://192.168.1.111:8080/api/post";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         // postSubject = findViewById(R.id.post_subject);
@@ -110,6 +119,9 @@ public class CreatePostHome extends AppCompatActivity {
         postBody = findViewById(R.id.post_body1);
         subjectsSpinner= findViewById(R.id.spinner1);
         JSONObject postData = new JSONObject();
+        Date date =new Date();
+        SimpleDateFormat simple= new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+        final String strdate =simple.format(date);
 
 
 
@@ -120,7 +132,8 @@ public class CreatePostHome extends AppCompatActivity {
             postData.put("postTitle", postTitle.getText().toString().trim());
             postData.put("postTags", postTags.getText().toString().trim());
             postData.put("postBody", postBody.getText().toString().trim());
-            postData.put("attachment", "atsztachment");
+            postData.put("postAttachment", textFile.getText().toString().trim());
+            postData.put("postTime", strdate);
 
         } catch (JSONException e) {
             e.printStackTrace();

@@ -128,6 +128,7 @@ public class QuestionCardView extends AppCompatActivity {
                         post.setPostTitle(postObject.getString("postTitle").toString());
                         post.setPostType(postObject.getString("postType").toString());
                         String user1=  postObject.getString("user");
+                        post.setPostTime(postObject.getString("postTime").toString()); ;
                         Gson g = new Gson();
                         User user = g.fromJson(user1, User.class);
                         post.setUser(user);

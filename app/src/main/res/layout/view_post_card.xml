@@ -24,35 +24,33 @@
             android:id="@+id/post_header"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/userImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-
-                android:layout_marginStart="-300dp"
-                android:layout_marginLeft="-300dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="false"
                 app:layout_constraintBottom_toBottomOf="parent"
-
-
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_baseline_account_circle_40" />
 
 
             <TextView
                 android:id="@+id/userName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
                 android:text="Osama Jarrar"
                 android:textColor="#000000"
                 android:textSize="18sp"
@@ -63,6 +61,8 @@
                 android:id="@+id/post_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
                 android:text="2h"
                 app:layout_constraintStart_toEndOf="@+id/userImage"
                 app:layout_constraintTop_toBottomOf="@+id/userName"
@@ -92,10 +92,10 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/post_body"
-            android:layout_width="408dp"
-            android:layout_height="443dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -106,10 +106,10 @@
                 android:id="@+id/post_Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
                 android:text="How to make a great R reproducible example?"
                 android:textColor="#000000"
-                android:textSize="18sp"
+                android:textSize="24sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -117,12 +117,10 @@
                 android:id="@+id/post_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:autoSizeMaxTextSize="15dp"
-                android:autoSizeMinTextSize="14sp"
-                android:autoSizeTextType="uniform"
-                android:maxHeight="70dp"
+                android:layout_marginTop="5dp"
                 android:text="When discussing performance with colleagues, teaching, sending a bug report or searching for guidance on mailing lists and here on Stack Overflow, a reproducible example is often asked and always .."
+                android:textColor="#000000"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/post_Title" />
 
@@ -131,6 +129,7 @@
                 android:id="@+id/images_previews"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -218,38 +217,7 @@
                     app:layout_constraintStart_toEndOf="@id/video_preview1"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <VideoView
-                    android:id="@+id/video_preview3"
-                    style="@style/attachment_style"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="5dp"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/video_preview2"
-                    app:layout_constraintTop_toTopOf="parent" />
 
-                <VideoView
-                    android:id="@+id/video_preview4"
-                    style="@style/attachment_style"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="5dp"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/video_preview3"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <VideoView
-                    android:id="@+id/video_preview5"
-                    style="@style/attachment_style"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="5dp"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/video_preview4"
-                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -313,11 +281,12 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/post_feedback"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
