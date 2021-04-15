@@ -3,6 +3,7 @@ package graduation.project.bzu.cscomunity.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.Arrays;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -63,6 +65,7 @@ public class GetPostsAdapter extends RecyclerView.Adapter<GetPostsAdapter.ViewHo
         holder.postContent.setText(posts.get(position).getPostBody());
         String tagsString=posts.get(position).getPostTags();
         String[] tagsArray=tagsString.split(",");
+        Log.d("TAG", "onBindViewHolder: "+Arrays.toString(tagsArray));
         if(tagsArray.length==1){
             holder.tag1.setText(tagsArray[0]);
             holder.tag1.setVisibility(View.VISIBLE);
@@ -106,50 +109,67 @@ public class GetPostsAdapter extends RecyclerView.Adapter<GetPostsAdapter.ViewHo
             holder.tags.setVisibility(View.VISIBLE);
 
         }
-        String imagesString=posts.get(position).getPostAttachment();
-        String[] imagesArray=imagesString.split(",");
-        if(imagesArray.length==1){
-            Picasso.get().load(imagesArray[0]).into(holder.image1);
-            holder.imagesPreviews.setVisibility(View.VISIBLE);
-            holder.image1.setVisibility(View.VISIBLE);
-        }else if(imagesArray.length==2){
-            Picasso.get().load(imagesArray[0]).into(holder.image1);
-            Picasso.get().load(imagesArray[1]).into(holder.image2);
-            holder.imagesPreviews.setVisibility(View.VISIBLE);
-            holder.image1.setVisibility(View.VISIBLE);
-            holder.image2.setVisibility(View.VISIBLE);
-        }else if(imagesArray.length==3){
-            Picasso.get().load(imagesArray[0]).into(holder.image1);
-            Picasso.get().load(imagesArray[1]).into(holder.image2);
-            Picasso.get().load(imagesArray[2]).into(holder.image3);
-            holder.imagesPreviews.setVisibility(View.VISIBLE);
-            holder.image1.setVisibility(View.VISIBLE);
-            holder.image2.setVisibility(View.VISIBLE);
-            holder.image3.setVisibility(View.VISIBLE);
-        }else if(imagesArray.length==4){
-            Picasso.get().load(imagesArray[0]).into(holder.image1);
-            Picasso.get().load(imagesArray[1]).into(holder.image2);
-            Picasso.get().load(imagesArray[2]).into(holder.image3);
-            Picasso.get().load(imagesArray[3]).into(holder.image4);
-            holder.imagesPreviews.setVisibility(View.VISIBLE);
-            holder.image1.setVisibility(View.VISIBLE);
-            holder.image2.setVisibility(View.VISIBLE);
-            holder.image3.setVisibility(View.VISIBLE);
-            holder.image4.setVisibility(View.VISIBLE);
-
-        }else if(imagesArray.length==5) {
-            Picasso.get().load(imagesArray[0]).into(holder.image1);
-            Picasso.get().load(imagesArray[1]).into(holder.image2);
-            Picasso.get().load(imagesArray[2]).into(holder.image3);
-            Picasso.get().load(imagesArray[3]).into(holder.image4);
-            Picasso.get().load(imagesArray[4]).into(holder.image5);
-            holder.imagesPreviews.setVisibility(View.VISIBLE);
-            holder.image1.setVisibility(View.VISIBLE);
-            holder.image2.setVisibility(View.VISIBLE);
-            holder.image3.setVisibility(View.VISIBLE);
-            holder.image4.setVisibility(View.VISIBLE);
-            holder.image5.setVisibility(View.VISIBLE);
-        }
+//        String imagesString=posts.get(position).getPostAttachment();
+//        //Log.d("TAG", "onBindViewHolder: YES"+ imagesString);
+//
+//
+//        if(imagesString==""){
+//            holder.imagesPreviews.setVisibility(View.GONE);
+//            holder.image1.setVisibility(View.GONE);
+//            holder.image2.setVisibility(View.GONE);
+//            holder.image3.setVisibility(View.GONE);
+//            holder.image4.setVisibility(View.GONE);
+//            holder.image5.setVisibility(View.GONE);
+//        }
+//        else if(!(imagesString=="")){
+//            String[] imagesArray=imagesString.split(",");
+//            //Log.d("TAG", "onBindViewHolder:4 "+ imagesString);
+//
+//            //Log.d("TAG", "onBindViewHolder2: "+ Arrays.toString(imagesArray));
+//            //Log.d("TAG", "onBindViewHolder3: "+imagesArray.length);
+//            if(imagesArray.length==1){
+//                Picasso.get().load(imagesArray[0]).into(holder.image1);
+//                holder.imagesPreviews.setVisibility(View.VISIBLE);
+//                holder.image1.setVisibility(View.VISIBLE);
+//             }else if(imagesArray.length==2){
+//                Picasso.get().load(imagesArray[0]).into(holder.image1);
+//                Picasso.get().load(imagesArray[1]).into(holder.image2);
+//                holder.imagesPreviews.setVisibility(View.VISIBLE);
+//                holder.image1.setVisibility(View.VISIBLE);
+//                holder.image2.setVisibility(View.VISIBLE);
+//            }else if(imagesArray.length==3){
+//                Picasso.get().load(imagesArray[0]).into(holder.image1);
+//                Picasso.get().load(imagesArray[1]).into(holder.image2);
+//                Picasso.get().load(imagesArray[2]).into(holder.image3);
+//                holder.imagesPreviews.setVisibility(View.VISIBLE);
+//                holder.image1.setVisibility(View.VISIBLE);
+//                holder.image2.setVisibility(View.VISIBLE);
+//                holder.image3.setVisibility(View.VISIBLE);
+//            }else if(imagesArray.length==4){
+//                Picasso.get().load(imagesArray[0]).into(holder.image1);
+//                Picasso.get().load(imagesArray[1]).into(holder.image2);
+//                Picasso.get().load(imagesArray[2]).into(holder.image3);
+//                Picasso.get().load(imagesArray[3]).into(holder.image4);
+//                holder.imagesPreviews.setVisibility(View.VISIBLE);
+//                holder.image1.setVisibility(View.VISIBLE);
+//                holder.image2.setVisibility(View.VISIBLE);
+//                holder.image3.setVisibility(View.VISIBLE);
+//                holder.image4.setVisibility(View.VISIBLE);
+//
+//            }else if(imagesArray.length==5) {
+//                Picasso.get().load(imagesArray[0]).into(holder.image1);
+//                Picasso.get().load(imagesArray[1]).into(holder.image2);
+//                Picasso.get().load(imagesArray[2]).into(holder.image3);
+//                Picasso.get().load(imagesArray[3]).into(holder.image4);
+//                Picasso.get().load(imagesArray[4]).into(holder.image5);
+//                holder.imagesPreviews.setVisibility(View.VISIBLE);
+//                holder.image1.setVisibility(View.VISIBLE);
+//                holder.image2.setVisibility(View.VISIBLE);
+//                holder.image3.setVisibility(View.VISIBLE);
+//                holder.image4.setVisibility(View.VISIBLE);
+//                holder.image5.setVisibility(View.VISIBLE);
+//            }
+//        }
         /*String videosString=posts.get(position).getPostTags();
         String[] videosArray=videosString.split(",");
         if(videosArray.length==1){
